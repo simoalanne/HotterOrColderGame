@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Fetches the current temperature for a given set of coordinates using the OpenWeatherMap API
@@ -16,17 +16,26 @@ import axios from 'axios';
  * @throws {Error} If the API request fails, or if there is an issue fetching the temperature data.
  */
 export const getCityTemperatureFromCoordinates = async ({ lat, lon }) => {
+  if (
+    !process.env.EXPO_PUBLIC_TEMPERATURE_API_URL &&
+    !process.env.EXPO_PUBLIC_OPEN_WEATHER_MAP_API_KEY
+  ) {
+    const errorMessage = `Missing api key or custom API URL in environment variables. Check the readme for more details.`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
   try {
     const res = await axios.get(
-      process.env.EXPO_PUBLIC_TEMPERATURE_API_URL || 'https://api.openweathermap.org/data/2.5/weather',
+      process.env.EXPO_PUBLIC_TEMPERATURE_API_URL ||
+        "https://api.openweathermap.org/data/2.5/weather",
       {
         params: {
-          lat: lat,
-          lon: lon,
+          lat: lat || 0,
+          lon: lon || 0,
           // this is send for the custom url too but it can just be ignored
           // it should be undefined anyway if custom url is used
           appid: process.env.EXPO_PUBLIC_OPEN_WEATHER_MAP_API_KEY,
-          units: 'metric',
+          units: "metric",
         },
       }
     );
@@ -55,16 +64,26 @@ export const getCityTemperatureFromCoordinates = async ({ lat, lon }) => {
  * @throws {Error} If the API request fails or there is an issue fetching the forecast data.
  */
 export const getWeeklyForecast = async (cityName) => {
+  if (
+    !process.env.EXPO_PUBLIC_TEMPERATURE_API_URL &&
+    !process.env.EXPO_PUBLIC_OPEN_WEATHER_MAP_API_KEY
+  ) {
+    const errorMessage = `Missing api key or custom API URL in environment variables. Check the readme for more details.`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
   try {
     const res = await axios.get(
-      process.env.EXPO_PUBLIC_FORECAST_API_URL || 'https://api.openweathermap.org/data/2.5/forecast',
+      process.env.EXPO_PUBLIC_FORECAST_API_URL ||
+        "https://api.openweathermap.org/data/2.5/forecast",
       {
         params: {
-          q: cityName,
+          q: cityName || "London",
           // this is send for the custom url too but it can just be ignored
           // it should be undefined anyway if custom url is used
           appid: process.env.EXPO_PUBLIC_OPEN_WEATHER_MAP_API_KEY,
-          units: 'metric',
+          units: "metric",
         },
       }
     );
@@ -72,8 +91,8 @@ export const getWeeklyForecast = async (cityName) => {
   } catch (err) {
     throw new Error(
       err?.response?.data?.message // if exists has "city not found"
-        ? 'City not found. Please check the input or try again! '
-        : 'Something went wrong. Please try again!' // if the issues wasnt with invalid city send general message
+        ? "City not found. Please check the input or try again! "
+        : "Something went wrong. Please try again!" // if the issues wasnt with invalid city send general message
     );
   }
 };
