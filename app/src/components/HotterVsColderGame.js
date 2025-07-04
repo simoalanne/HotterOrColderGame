@@ -11,8 +11,10 @@ import GameButtons from './GameButtons';
 import { Bar } from 'react-native-progress';
 import useStats from '../hooks/useStats';
 import GameStartScreen from './GameStartScreen';
+import { useSQLiteContext } from 'expo-sqlite';
 
 const HotterVsColderGame = () => {
+  const db = useSQLiteContext();
   const [cityData, setCityData] = useState({
     reference: null,
     guessed: null,
@@ -42,7 +44,9 @@ const HotterVsColderGame = () => {
       const newCityData = await fetchCityData(
         setLoadingProgress,
         shouldUpdate,
+        db
       );
+      console.log('New city data:', newCityData);
 
       setCityData((prev) => ({
         reference: swapReferenceToGuessed
@@ -146,7 +150,7 @@ const HotterVsColderGame = () => {
                   ]}>
                   {cityData.reference.temp.toFixed(2)}°C
                 </Text>
-                <OpenMapButton cityName={cityData.reference.displayName} />
+                <OpenMapButton cityName={cityData.reference.name} />
               </View>
               <ImageSourceLink
                 imageURL={cityData.reference.imageURL}
@@ -227,7 +231,7 @@ const HotterVsColderGame = () => {
                     });
                   }}
                   isCorrect={isCorrect}
-                  guessedCityName={cityData.guessed.displayName}
+                  guessedCityName={cityData.guessed.name}
                 />
               </View>
               <ImageSourceLink
