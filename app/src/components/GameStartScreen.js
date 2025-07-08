@@ -25,8 +25,8 @@ const GameStartScreen = ({
 
   const cityImage =
     getIsNightOrDay() === 'night'
-      ? require('../assets/night-city.png')
-      : require('../assets/day-city.png');
+      ? require('../assets/night-city.jpg')
+      : require('../assets/day-city.jpg');
 
   return (
     <ImageBackground source={cityImage} style={styles.startBackground}>
