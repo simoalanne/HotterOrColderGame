@@ -1,42 +1,37 @@
-# 🌦️ Weather App with a Guessing Game
+# 🌡️ Temperature Guessing Game
 
-A mobile app built with React Native that combines a simple weather lookup with a fun and fast-paced guessing game.
+A mobile game built with React Native where you guess whether the next city is hotter or colder.
 
 ## 🎮 Concept
 
-Check the current weather for your location or any city around the world. Or, when you quickly get bored of that, jump into a game where you’re shown one city's temperature and asked:
+You're shown a random city and its current temperature. Then comes the challenge:
 
 > “Is the next city's temperature hotter or colder?”
 
-Built on top of real-time weather data, this game turns weather info into a fun, interactive challenge inspired by the [Higher Lower Game](https://www.higherlowergame.com/).
+The game uses real-time data and tests your intuition about global climates — a fast-paced twist on geography and weather.
 
-## 💡 Why This App?
-
-This app goes beyond your typical “boring” weather app by layering in a temperature guessing game. It transforms a basic utility into something more engaging and highly replayable thanks to dynamic, real-world data. It may not compete with major weather apps in terms of sheer features, but it offers something you have definitely not seen in a weather app before.
+Inspired by the [Higher Lower Game](https://www.higherlowergame.com/), but with a meteorological consept
 
 ## 🔧 Features
 
-- 🌍 View weather by your current location or search
-- 🎯 Guess temperatures between random global cities
-- 📈 Game stats tracking using device local storage
-- ⚙️ Built with React Native + Expo
-- 📡 Uses several third-party APIs and device geolocation
+- 🌍 Guess temperatures between real-world cities
+- 🌡️ Real-time temperature data using Open-Meteo API
+- 🖼️ Wikipedia-sourced images of cities
+- 📈 Local game stats tracking
+- ⚛️ Built with React Native + Expo
 
 ## 🧪 Tech Stack
 
-- React Native
-- Expo
-- OpenWeatherMap API
-- Geolocation API
-- Wikipedia API (for city images)
+- React Native (with Expo)
+- Open-Meteo API
+- Wikipedia API
+- SQLite (via Expo SQLite)
 
 ## 📸 Screenshots
 
-<div align="center">
-  <img src="screenshots/home-screen.png" width="200" alt="Home Screen" style="margin: 10px;" />
+<div align="left">
   <img src="screenshots/game-starting-screen.png" width="200" alt="Game Starting Screen" style="margin: 10px;" />
   <img src="screenshots/gameplay-screen.png" width="200" alt="Gameplay Screen" style="margin: 10px;" />
-  <img src="screenshots/weather-details-screen.png" width="200" alt="Weather Details Screen" style="margin: 10px;" />
 </div>
 
 ## 🚀 How to Run
@@ -46,8 +41,8 @@ To run this app locally using Expo:
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/yourusername/weather-guess-game.git
-    cd weather-guess-game
+    git clone https://github.com/simoalanne/HotterOrColderGame
+    cd HotterOrColderGame/app
     ```
 
 2. **Install dependencies**
@@ -56,25 +51,13 @@ To run this app locally using Expo:
     npm install
     ```
 
-3. **Add environment variables**
+3. **Start the development server**
 
     ```bash
-    # You can choose to either use the API key directly or alternatively provide custom URLs
-    # that call the OpenWeatherMap API endpoints. The latter should always be used in production.
-
-    EXPO_PUBLIC_OPEN_WEATHER_MAP_API_KEY="your open weather map key"
-    EXPO_PUBLIC_TEMPERATURE_API_URL="custom url (optional)"
-    EXPO_PUBLIC_FORECAST_API_URL="custom url (optional)"
-    ```
-
-4. **Start development server**
-
-    ```bash
-    # You may have to add --tunnel flag depending on your device and internet setup
     npx expo start
+    # Depending on your setup, you may need to add the --tunnel flag
     ```
 
-## ⚡Try It Online (Expo Snack)
-You can also try out a simplified version of the app directly in your browser via Expo Snack.  
-👉 [Open in Snack](https://snack.expo.dev/@simoa/weatherapp)  
-Disclaimer: Some features in the snack version may not work as well and the snack versions codebase may not be up to date with this repository.
+## 🖥️ Additional setup
+
+ If you want to customize what cities are available for the app ```HotterOrColderGame/setup ``` contains a simple python script and original csv file that was used to populate the apps database. The database file ```cities.db``` the app uses is included in this repository and is inside ```HotterOrColderGame/app/src/assets``` directory.
