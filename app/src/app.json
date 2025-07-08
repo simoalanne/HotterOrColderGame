@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "hottervscoldergame",
-    "slug": "hottervscoldergame",
+    "name": "hotterorcoldergame",
+    "slug": "hotterorcoldergame",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -31,6 +31,6 @@
     "@babel/core": "^7.20.0"
   },
   "private": true,
-  "name": "weather-app",
+  "name": "hotterorcoldergame",
   "version": "1.0.0"
 }
