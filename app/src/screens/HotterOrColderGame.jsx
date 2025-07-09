@@ -11,9 +11,13 @@ import GameButtons from "../components/GameButtons";
 import { Bar } from "react-native-progress";
 import useStats from "../hooks/useStats";
 import { useSQLiteContext } from "expo-sqlite";
+import useSettings from "../hooks/useSettings";
+import { useNavigation } from "@react-navigation/native";
 
 const HotterOrColderGame = () => {
   const db = useSQLiteContext();
+  const navController = useNavigation();
+  const { settings } = useSettings();
   const [cityData, setCityData] = useState({ reference: null, guessed: null });
   const { updateStats } = useStats();
   const [error, setError] = useState("");
@@ -30,8 +34,9 @@ const HotterOrColderGame = () => {
 
   const { animatedTemp, animateTo } = useAnimatedNumber();
   useEffect(() => {
+    if (!settings) return;
     startGame();
-  }, []);
+  }, [settings]);
 
   const updateCityData = async ({
     isGuessedCity = false,
@@ -44,7 +49,8 @@ const HotterOrColderGame = () => {
       const newCityData = await fetchCityData(
         setLoadingProgress,
         shouldUpdate,
-        db
+        db,
+        settings
       );
 
       setCityData((prev) => ({
@@ -216,7 +222,7 @@ const HotterOrColderGame = () => {
               onGuess={guessHigherOrLower}
               onQuit={async () => {
                 await updateStats(score);
-                startGame();
+                navController.navigate("Main Menu");
               }}
               onNextCity={() => {
                 setLoadingProgress(0);

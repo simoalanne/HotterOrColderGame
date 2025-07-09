@@ -46,6 +46,11 @@ const MainMenu = () => {
           label="View Stats"
           onPress={() => navigation.navigate('Stats')}
         />
+        <CustomButton
+          label="Settings"
+          onPress={() => navigation.navigate('Settings')}
+          gradientColors={['#FFD700', '#FFA500', '#FF8C00']}
+        />
       </View>
     </ImageBackground>
   );

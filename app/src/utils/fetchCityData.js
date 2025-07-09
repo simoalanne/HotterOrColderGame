@@ -1,4 +1,4 @@
-import getRandomCityName from "../api/randomCityApi";
+import * as DB from "../api/randomCityApi";
 import { getWikiImagesNearCoords } from "../api/wikipediaApi";
 import { getCityTemperatureFromCoordinates } from "../api/weatherApi";
 
@@ -6,12 +6,14 @@ export default fetchCityData = async (
   setProgress,
   shouldUpdate = true,
   db,
+  settings,
+  alreadyIncludedIds = [],
   retryCount = 0
 ) => {
   try {
     console.log("Fetching city data...");
     // Step 1: Fetch random city name
-    const entry = await getRandomCityName(db);
+    const entry = await DB.getRandomCityName(db, settings, alreadyIncludedIds);
     console.log("Random city entry:", entry);
 
     // Run Wikipedia images fetch and temperature fetch in parallel
@@ -41,6 +43,13 @@ export default fetchCityData = async (
       throw new Error("Failed to fetch city data after 20 tries");
     }
 
-    return await fetchCityData(setProgress, shouldUpdate, db, retryCount + 1);
+    return await fetchCityData(
+      setProgress,
+      shouldUpdate,
+      db,
+      settings,
+      alreadyIncludedIds,
+      retryCount + 1
+    );
   }
 };
