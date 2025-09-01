@@ -1,11 +1,11 @@
 import { View, Text, ImageBackground, StyleSheet, Switch } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import getIsNightOrDay from "../utils/getIsNightOrDay";
 import useSettings from "../hooks/useSettings";
 import * as DB from "../api/randomCityApi";
 import Slider from "@react-native-community/slider";
 import { useEffect, useState } from "react";
 import { useSQLiteContext } from "expo-sqlite";
+import isNight from "../utils/isNight";
 
 const SettingsScreen = () => {
   const db = useSQLiteContext();
@@ -33,13 +33,12 @@ const SettingsScreen = () => {
     })();
   }, [settings, db]);
 
-  const cityImage =
-    getIsNightOrDay() === "night"
-      ? require("../assets/night-city.jpg")
-      : require("../assets/day-city.jpg");
+  const cityImage = isNight()
+    ? require("../assets/night-city.jpg")
+    : require("../assets/day-city.jpg");
 
   // function to handle population changes. Updates corresponding field in settings and makes sure min is always less than max and vice versa
-  const onPopulationChange = (value, { isMax }) => {
+  const onPopulationChange = (value: number, isMax: Boolean) => {
     if (isMax) {
       const minCityPopulation =
         value <= settings.minCityPopulation
@@ -76,7 +75,9 @@ const SettingsScreen = () => {
           }
           trackColor={{ false: "#767577", true: "#81b0ff" }}
         />
-        <Text style={styles.label}>Min City Population {settings.minCityPopulation}</Text>
+        <Text style={styles.label}>
+          Min City Population {settings.minCityPopulation}
+        </Text>
         <Slider
           style={{ width: "100%", height: 40 }}
           minimumValue={populationData.minPopulation}
@@ -84,12 +85,14 @@ const SettingsScreen = () => {
           step={step}
           value={settings.minCityPopulation}
           onSlidingComplete={(value) =>
-            onPopulationChange(value, { isMax: false })
+            onPopulationChange(value, false)
           }
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#FFFFFF"
         />
-        <Text style={styles.label}>Max City Population {settings.maxCityPopulation}</Text>
+        <Text style={styles.label}>
+          Max City Population {settings.maxCityPopulation}
+        </Text>
         <Slider
           style={{ width: "100%", height: 40 }}
           minimumValue={populationData.minPopulation}
@@ -97,7 +100,7 @@ const SettingsScreen = () => {
           step={step}
           value={settings.maxCityPopulation}
           onSlidingComplete={(value) =>
-            onPopulationChange(value, { isMax: true })
+            onPopulationChange(value, true)
           }
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#FFFFFF"

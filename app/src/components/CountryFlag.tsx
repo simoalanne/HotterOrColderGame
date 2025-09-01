@@ -1,6 +1,11 @@
 import { Image, StyleSheet } from 'react-native';
 
-const CountryFlag = ({ customStyles, countryCode }) => {
+type CountryFlagProps = {
+  customStyles?: object;
+  countryCode: string;
+};
+
+const CountryFlag = ({ customStyles, countryCode }: CountryFlagProps) => {
   return (
     <Image
       source={{
@@ -17,4 +22,5 @@ const styles = StyleSheet.create({
     height: (40 * 2) / 3,
   },
 });
+
 export default CountryFlag;

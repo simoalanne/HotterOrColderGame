@@ -1,13 +1,15 @@
 import * as DB from "../api/randomCityApi";
 import { getWikiImagesNearCoords } from "../api/wikipediaApi";
 import { getCityTemperatureFromCoordinates } from "../api/weatherApi";
+import { SQLiteDatabase } from "expo-sqlite";
+import type { Settings } from "../hooks/useSettings";
 
-export default fetchCityData = async (
-  setProgress,
+const fetchCityData = async (
+  setProgress: (progress: number) => void,
   shouldUpdate = true,
-  db,
-  settings,
-  alreadyIncludedIds = [],
+  db: SQLiteDatabase,
+  settings: Settings,
+  alreadyIncludedIds: string[] = [],
   retryCount = 0
 ) => {
   try {
@@ -15,12 +17,17 @@ export default fetchCityData = async (
     // Step 1: Fetch random city name
     const entry = await DB.getRandomCityName(db, settings, alreadyIncludedIds);
     console.log("Random city entry:", entry);
+    if (!entry) {
+      throw new Error("No city found matching the criteria");
+    }
 
     // Run Wikipedia images fetch and temperature fetch in parallel
     const [images, temp] = await Promise.all([
       getWikiImagesNearCoords(entry.lat, entry.lon),
-      getCityTemperatureFromCoordinates({ lat: entry.lat, lon: entry.lon }),
+      getCityTemperatureFromCoordinates(entry.lat, entry.lon),
     ]);
+
+    console.log("Fetched images:", images, "Temperature:", temp);
 
     console.log("City temperature:", temp);
     if (!images || images.length === 0) {
@@ -39,7 +46,7 @@ export default fetchCityData = async (
     console.log("City data object:", obj);
     return obj;
   } catch (error) {
-    if (retryCount > 20) {
+    if (retryCount > 5) {
       throw new Error("Failed to fetch city data after 20 tries");
     }
 
@@ -53,3 +60,5 @@ export default fetchCityData = async (
     );
   }
 };
+
+export default fetchCityData;

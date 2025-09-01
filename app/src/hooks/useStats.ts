@@ -33,7 +33,7 @@ const useStats = () => {
 
   const averageScore = totalGames > 0 ? (totalPoints / totalGames).toFixed(2) : 0;
 
-  const updateStats = async (newScore) => {
+  const updateStats = async (newScore: number) => {
     try {
       const updatedTotalGames = totalGames + 1;
       const updatedTotalPoints = totalPoints + newScore;

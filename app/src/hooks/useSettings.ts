@@ -3,7 +3,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SETTINGS_KEY = "settings";
 
-const DEFAULT_SETTINGS = {
+export type Settings = {
+  gameMode: "temperature" | "population"
+  minCityPopulation: number;
+  maxCityPopulation: number;
+  capitalCitiesOnly: boolean;
+  includedCountries: string[];
+};
+
+const DEFAULT_SETTINGS: Settings = {
   gameMode: "temperature",
   // the min and max are same what db will return assuming the db file is the one provided in the repo
   minCityPopulation: 4,
@@ -13,7 +21,7 @@ const DEFAULT_SETTINGS = {
 };
 
 const useSettings = () => {
-  const [settings, setSettings] = useState();
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -32,7 +40,7 @@ const useSettings = () => {
     loadSettings();
   }, []);
 
-  const updateSettings = async (newSettings) => {
+  const updateSettings = async (newSettings: Settings) => {
     try {
       setSettings(newSettings);
       await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));

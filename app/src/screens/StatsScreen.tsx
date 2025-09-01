@@ -1,15 +1,13 @@
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import useStats from '../hooks/useStats';
-import getIsNightOrDay from '../utils/getIsNightOrDay';
+import isNight from '../utils/isNight';
 
 const StatsScreen = () => {
-  const navigation = useNavigation();
   const { highScore, totalGames, averageScore } = useStats();
 
   const cityImage =
-    getIsNightOrDay() === 'night'
+    isNight()
       ? require('../assets/night-city.jpg')
       : require('../assets/day-city.jpg');
 

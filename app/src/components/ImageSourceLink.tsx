@@ -1,6 +1,16 @@
 import { TouchableOpacity, Text, Linking, StyleSheet } from 'react-native';
 
-const ImageSourceLink = ({ imageURL, positioning }) => {
+type ImageSourceLinkProps = {
+  imageURL: string;
+  positioning: {
+    bottom?: number;
+    right?: number;
+    top?: number;
+    left?: number;
+  };
+};
+
+const ImageSourceLink = ({ imageURL, positioning }: ImageSourceLinkProps) => {
   return (
     <TouchableOpacity style={{position: 'absolute', ...positioning}} onPress={() => Linking.openURL(imageURL)}>
       <Text style={styles.imageSourceText}>Source: Wikimedia Commons</Text>
