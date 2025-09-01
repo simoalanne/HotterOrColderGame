@@ -14,8 +14,8 @@ export default function App() {
       assetSource={{ assetId: require("./assets/cities.db") }}
     >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Main Menu">
-          <Stack.Screen name="Main Menu" component={MainMenu} options={{ headerShown: false }} />
+        <Stack.Navigator initialRouteName="MainMenu">
+          <Stack.Screen name="MainMenu" component={MainMenu} options={{ headerShown: false }} />
           <Stack.Screen name="Game" component={HotterOrColderGame} options={{ headerShown: true }} />
           <Stack.Screen name="Stats" component={StatsScreen} options={{ headerShown: true }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: true }} />

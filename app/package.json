@@ -1,6 +1,6 @@
 {
   "license": "0BSD",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -12,15 +12,19 @@
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-community/slider": "4.5.6",
     "@react-navigation/native": "*",
+    "@react-navigation/native-stack": "^7.3.26",
     "@react-navigation/stack": "*",
     "axios": "*",
     "axios-cache-interceptor": "^1.8.0",
-    "expo": "^53.0.17",
+    "expo": "53.0.22",
+    "expo-image": "~2.4.0",
     "expo-linear-gradient": "~14.1.5",
     "expo-localization": "~16.1.6",
     "expo-location": "~18.1.6",
-    "expo-sqlite": "~15.2.13",
+    "expo-sqlite": "~15.2.14",
     "expo-status-bar": "~2.2.3",
+    "install": "^0.13.0",
+    "npm": "^11.5.2",
     "react": "19.0.0",
     "react-native": "0.79.5",
     "react-native-gesture-handler": "~2.24.0",
@@ -30,7 +34,9 @@
     "react-native-svg": "15.11.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
   },
   "private": true,
   "name": "hotterorcoldergame",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,22 @@ import {
   StyleSheet,
   Platform,
   TouchableOpacity,
-} from 'react-native';
-import { Bar } from 'react-native-progress';
-import CustomButton from './CustomButton';
-import { AntDesign } from '@expo/vector-icons';
-import getIsNightOrDay from '../utils/getIsNightOrDay';
+} from "react-native";
+import { Bar } from "react-native-progress";
+import CustomButton from "./CustomButton";
+import { AntDesign } from "@expo/vector-icons";
+import getIsNightOrDay from "../utils/isNight";
+import isNight from "../utils/isNight";
+
+type GameStartScreenProps = {
+  onGameStart: () => Promise<void>;
+  loadingProgress: number;
+  loading: boolean;
+  highScore: number;
+  totalGames: number;
+  avgScore: number;
+  error: string | null;
+};
 
 const GameStartScreen = ({
   onGameStart,
@@ -20,13 +31,12 @@ const GameStartScreen = ({
   totalGames,
   avgScore,
   error,
-}) => {
+}: GameStartScreenProps) => {
   const [viewStats, setViewStats] = useState(false);
 
-  const cityImage =
-    getIsNightOrDay() === 'night'
-      ? require('../assets/night-city.jpg')
-      : require('../assets/day-city.jpg');
+  const cityImage = isNight()
+    ? require("../assets/night-city.jpg")
+    : require("../assets/day-city.jpg");
 
   return (
     <ImageBackground source={cityImage} style={styles.startBackground}>
@@ -35,7 +45,8 @@ const GameStartScreen = ({
           <View style={styles.statsContainer}>
             <TouchableOpacity
               onPress={() => setViewStats(false)}
-              style={styles.backArrow}>
+              style={styles.backArrow}
+            >
               <AntDesign name="arrowleft" size={36} color="white" />
             </TouchableOpacity>
             <Text style={styles.statsText}>Total Games: {totalGames}</Text>
@@ -45,8 +56,8 @@ const GameStartScreen = ({
         ) : (
           <View style={styles.mainMenu}>
             <Text style={styles.titleText}>
-              <Text style={styles.hotterText}>Hotter</Text>{' '}
-              <Text style={styles.vsText}>VS</Text>{' '}
+              <Text style={styles.hotterText}>Hotter</Text>{" "}
+              <Text style={styles.vsText}>VS</Text>{" "}
               <Text style={styles.colderText}>Colder</Text>
             </Text>
 
@@ -56,8 +67,8 @@ const GameStartScreen = ({
                 the other
               </Text>
               <Text style={styles.instructionsTextBullet}>
-                • Use flags or open the city in{' '}
-                {Platform.OS === 'ios' ? 'Apple' : 'Google'} maps for hints
+                • Use flags or open the city in{" "}
+                {Platform.OS === "ios" ? "Apple" : "Google"} maps for hints
               </Text>
               <Text style={styles.instructionsTextBullet}>
                 • Double tap the images to hide them if they're distracting or
@@ -82,7 +93,7 @@ const GameStartScreen = ({
               onPress={async () => {
                 await onGameStart();
               }}
-              gradientColors={['#00BFFF', '#1E90FF', '#ADD8E6']}
+              gradientColors={["#00BFFF", "#1E90FF", "#ADD8E6"]}
             />
             {error && (
               <View style={styles.errorContainer}>
@@ -103,50 +114,50 @@ const GameStartScreen = ({
 const styles = StyleSheet.create({
   startBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
   },
   mainMenu: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   dialogContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 10,
-    width: '90%',
+    width: "90%",
   },
   titleText: {
     fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
   },
   hotterText: {
-    color: '#FFD700',
+    color: "#FFD700",
   },
   colderText: {
-    color: '#00BFFF',
+    color: "#00BFFF",
   },
   vsText: {
-    color: 'white',
+    color: "white",
   },
   instructionsContainer: {
-    display: 'flex',
+    display: "flex",
     gap: 10,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     marginBottom: 20,
   },
   instructionsTextBullet: {
     fontSize: 16,
-    color: 'white',
+    color: "white",
   },
   statsContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   backArrow: {
@@ -154,19 +165,19 @@ const styles = StyleSheet.create({
   },
   statsText: {
     fontSize: 18,
-    color: 'white',
+    color: "white",
     marginBottom: 10,
   },
   errorContainer: {
-    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+    backgroundColor: "rgba(255, 0, 0, 0.5)",
     padding: 10,
     borderRadius: 25,
     width: 200,
   },
   errorText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 14,
-    color: 'white',
+    color: "white",
   },
 });
 

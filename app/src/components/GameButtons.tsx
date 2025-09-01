@@ -3,6 +3,16 @@ import { AntDesign } from '@expo/vector-icons';
 import CustomButton from './CustomButton';
 import OpenMapButton from './OpenMapButton';
 
+type GameButtonsProps = {
+  isGuessButtonsEnabled: boolean;
+  onGuess: (direction: 'higher' | 'lower') => void;
+  onQuit: () => void;
+  onNextCity: () => void;
+  isCorrect: boolean | null;
+  guessedCityName?: string;
+  disabled?: boolean;
+};
+
 const GameButtons = ({
   isGuessButtonsEnabled,
   onGuess,
@@ -10,8 +20,8 @@ const GameButtons = ({
   onNextCity,
   isCorrect,
   guessedCityName,
-  disabled,
-}) => (
+  disabled = false,
+}: GameButtonsProps) => (
   <View style={styles.buttonContainer}>
     {isGuessButtonsEnabled && (
       <>
@@ -27,7 +37,7 @@ const GameButtons = ({
           gradientColors={['#00BFFF', '#1E90FF', '#ADD8E6']}
           icon={<AntDesign name="caretdown" size={24} color="white" />}
         />
-        <OpenMapButton cityName={guessedCityName} />
+        <OpenMapButton cityName={guessedCityName || ""} />
       </>
     )}
 
