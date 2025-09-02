@@ -1,18 +1,12 @@
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import useStats from '../hooks/useStats';
-import isNight from '../utils/isNight';
+import { View, Text, StyleSheet } from "react-native";
+import useStats from "../hooks/useStats";
+import MenuBackground from "../components/MenuBackground";
 
 const StatsScreen = () => {
   const { highScore, totalGames, averageScore } = useStats();
 
-  const cityImage =
-    isNight()
-      ? require('../assets/night-city.jpg')
-      : require('../assets/day-city.jpg');
-
   return (
-    <ImageBackground source={cityImage} style={styles.startBackground}>
+    <MenuBackground>
       <View style={styles.dialogContent}>
         <View style={styles.statsContainer}>
           <Text style={styles.statsText}>Total Games: {totalGames}</Text>
@@ -20,39 +14,32 @@ const StatsScreen = () => {
           <Text style={styles.statsText}>Average Score: {averageScore}</Text>
         </View>
       </View>
-    </ImageBackground>
+    </MenuBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  startBackground: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-  },
   dialogContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 10,
-    width: '90%',
+    width: "90%",
   },
   statsContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   backArrow: {
     marginBottom: 20,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   statsText: {
     fontSize: 18,
-    color: 'white',
+    color: "white",
     marginBottom: 10,
   },
 });

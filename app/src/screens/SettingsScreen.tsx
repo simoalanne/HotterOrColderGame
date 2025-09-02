@@ -1,11 +1,11 @@
-import { View, Text, ImageBackground, StyleSheet, Switch } from "react-native";
+import { View, Text, StyleSheet, Switch } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import useSettings from "../hooks/useSettings";
 import * as DB from "../api/randomCityApi";
 import Slider from "@react-native-community/slider";
 import { useEffect, useState } from "react";
 import { useSQLiteContext } from "expo-sqlite";
-import isNight from "../utils/isNight";
+import MenuBackground from "../components/MenuBackground";
 
 const SettingsScreen = () => {
   const db = useSQLiteContext();
@@ -32,10 +32,6 @@ const SettingsScreen = () => {
       setAvailableCities(count);
     })();
   }, [settings, db]);
-
-  const cityImage = isNight()
-    ? require("../assets/night-city.jpg")
-    : require("../assets/day-city.jpg");
 
   // function to handle population changes. Updates corresponding field in settings and makes sure min is always less than max and vice versa
   const onPopulationChange = (value: number, isMax: Boolean) => {
@@ -65,7 +61,7 @@ const SettingsScreen = () => {
   if (!settings) return;
 
   return (
-    <ImageBackground source={cityImage} style={styles.background}>
+    <MenuBackground>
       <View style={styles.dialogContent}>
         <Text style={styles.label}>Capital cities only?</Text>
         <Switch
@@ -84,9 +80,7 @@ const SettingsScreen = () => {
           maximumValue={populationData.maxPopulation}
           step={step}
           value={settings.minCityPopulation}
-          onSlidingComplete={(value) =>
-            onPopulationChange(value, false)
-          }
+          onSlidingComplete={(value) => onPopulationChange(value, false)}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#FFFFFF"
         />
@@ -99,26 +93,17 @@ const SettingsScreen = () => {
           maximumValue={populationData.maxPopulation}
           step={step}
           value={settings.maxCityPopulation}
-          onSlidingComplete={(value) =>
-            onPopulationChange(value, true)
-          }
+          onSlidingComplete={(value) => onPopulationChange(value, true)}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#FFFFFF"
         />
         <Text style={styles.label}>Available Cities: {availableCities}</Text>
       </View>
-    </ImageBackground>
+    </MenuBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
   dialogContent: {
     alignItems: "center",
     justifyContent: "center",

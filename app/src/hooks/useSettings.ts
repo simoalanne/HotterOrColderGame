@@ -21,7 +21,7 @@ const DEFAULT_SETTINGS: Settings = {
 };
 
 const useSettings = () => {
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<Settings | null>(null);
 
   useEffect(() => {
     const loadSettings = async () => {

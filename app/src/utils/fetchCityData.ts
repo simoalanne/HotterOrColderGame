@@ -5,15 +5,12 @@ import { SQLiteDatabase } from "expo-sqlite";
 import type { Settings } from "../hooks/useSettings";
 
 const fetchCityData = async (
-  setProgress: (progress: number) => void,
-  shouldUpdate = true,
   db: SQLiteDatabase,
   settings: Settings,
   alreadyIncludedIds: string[] = [],
   retryCount = 0
 ) => {
   try {
-    console.log("Fetching city data...");
     // Step 1: Fetch random city name
     const entry = await DB.getRandomCityName(db, settings, alreadyIncludedIds);
     console.log("Random city entry:", entry);
@@ -27,9 +24,7 @@ const fetchCityData = async (
       getCityTemperatureFromCoordinates(entry.lat, entry.lon),
     ]);
 
-    console.log("Fetched images:", images, "Temperature:", temp);
 
-    console.log("City temperature:", temp);
     if (!images || images.length === 0) {
       throw new Error("No images found for the city");
     }
@@ -40,10 +35,9 @@ const fetchCityData = async (
       lat: entry.lat,
       lon: entry.lon,
       // take random image from the images array
-      imageURL: images[Math.floor(Math.random() * images.length)],
+      imageURL: images[0],
       temp,
     };
-    console.log("City data object:", obj);
     return obj;
   } catch (error) {
     if (retryCount > 5) {
@@ -51,8 +45,6 @@ const fetchCityData = async (
     }
 
     return await fetchCityData(
-      setProgress,
-      shouldUpdate,
       db,
       settings,
       alreadyIncludedIds,

@@ -48,12 +48,9 @@ const HotterOrColderGame = () => {
   const [guessedTempVisible, setGuessedTempVisible] = useState(false);
   const [answerState, setAnswerState] = useState<VSState>("Neutral");
   const [guessButtonsDisabled, setGuessButtonsDisabled] = useState(false);
-  const [showBackgroundImages, setShowBackgroundImages] = useState({
-    reference: true,
-    guessed: true,
-  });
 
   const { animatedTemp, animateTo } = useAnimatedNumber();
+
   useEffect(() => {
     if (!settings) return;
     startGame();
@@ -62,17 +59,11 @@ const HotterOrColderGame = () => {
   const updateCityData = async ({
     isGuessedCity = false,
     swapReferenceToGuessed = false,
-    shouldUpdate = true,
   }) => {
     setLoading(true);
     setError("");
     try {
-      const newCityData = await fetchCityData(
-        setLoadingProgress,
-        shouldUpdate,
-        db,
-        settings
-      );
+      const newCityData = await fetchCityData(db, settings);
 
       setCityData((prev) => ({
         reference: swapReferenceToGuessed
@@ -82,8 +73,6 @@ const HotterOrColderGame = () => {
           : newCityData,
         guessed: isGuessedCity ? newCityData : prev.guessed,
       }));
-
-      setShowBackgroundImages((prev) => ({ ...prev, guessed: true }));
     } catch {
       setError("Something went wrong. Please try again!");
     } finally {
@@ -94,10 +83,18 @@ const HotterOrColderGame = () => {
     }
   };
 
+  if (!settings) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading settings...</Text>
+      </View>
+    );
+  }
+
   const startGame = async () => {
     try {
       await Promise.all([
-        updateCityData({ isGuessedCity: false, shouldUpdate: false }),
+        updateCityData({ isGuessedCity: false }),
         updateCityData({ isGuessedCity: true }),
       ]);
       setScore(0);

@@ -17,7 +17,10 @@ type CityEntry = {
   lon: number;
 };
 
-const buildWhereClause = (settings: Settings, alreadyIncludedIds: string[] = []) => {
+const buildWhereClause = (
+  settings: Settings,
+  alreadyIncludedIds: string[] = []
+) => {
   const whereClauses = [];
   const params = [];
 
@@ -52,9 +55,23 @@ const buildWhereClause = (settings: Settings, alreadyIncludedIds: string[] = [])
   return { whereClause, params };
 };
 
-export const getRandomCityName = async (db: SQLiteDatabase, settings: Settings, alreadyIncludedIds: string[]): Promise<CityEntry | null> => {
-  const { whereClause, params } = buildWhereClause(settings, alreadyIncludedIds);
-  console.log("Where clause:", whereClause, "Params:", params, "settings:", settings);
+export const getRandomCityName = async (
+  db: SQLiteDatabase,
+  settings: Settings,
+  alreadyIncludedIds: string[]
+): Promise<CityEntry | null> => {
+  const { whereClause, params } = buildWhereClause(
+    settings,
+    alreadyIncludedIds
+  );
+  console.log(
+    "Where clause:",
+    whereClause,
+    "Params:",
+    params,
+    "settings:",
+    settings
+  );
   const query = `SELECT * FROM cities ${whereClause} ORDER BY RANDOM() LIMIT 1`;
   const [randomEntry]: CityEntryDb[] = await db.getAllAsync(query, params);
   if (!randomEntry) return null;
@@ -65,10 +82,12 @@ export const getRandomCityName = async (db: SQLiteDatabase, settings: Settings, 
     lat: randomEntry.latitude,
     lon: randomEntry.longitude,
   };
-
 };
 
-export const getMatchingCitiesCount = async (db: SQLiteDatabase, settings: Settings) => {
+export const getMatchingCitiesCount = async (
+  db: SQLiteDatabase,
+  settings: Settings
+) => {
   const { whereClause, params } = buildWhereClause(settings);
   const query = `SELECT COUNT(*) as count FROM cities ${whereClause}`;
   const [result]: { count: number }[] = await db.getAllAsync(query, params);
@@ -78,11 +97,14 @@ export const getMatchingCitiesCount = async (db: SQLiteDatabase, settings: Setti
 
 export const getMaxAndMinPopulation = async (db: SQLiteDatabase) => {
   const query = `SELECT MAX(population) as maxPopulation, MIN(population) as minPopulation FROM cities WHERE population > 0`;
-  const [result]: { maxPopulation: number; minPopulation: number }[] = await db.getAllAsync(query);
+  const [result]: { maxPopulation: number; minPopulation: number }[] =
+    await db.getAllAsync(query);
   return result;
 };
 
-export const getAllCountries = async (db: SQLiteDatabase): Promise<string[]> => {
+export const getAllCountries = async (
+  db: SQLiteDatabase
+): Promise<string[]> => {
   const query = `SELECT DISTINCT country from cities ORDER BY country`;
   const countries: { country_code: string }[] = await db.getAllAsync(query);
   return countries.map((country) => country.country_code);
