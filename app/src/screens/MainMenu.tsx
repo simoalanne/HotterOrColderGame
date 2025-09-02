@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  ImageBackground,
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton";
-import isNight from "../utils/isNight";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
+import MenuBackground from "../components/MenuBackground";
 
 export type RootStackParamList = {
   MainMenu: undefined;
@@ -26,12 +19,8 @@ export type MainMenuNavigationProp = NativeStackNavigationProp<
 const MainMenu = () => {
   const navigation = useNavigation<MainMenuNavigationProp>();
 
-  const cityImage = isNight()
-    ? require("../assets/night-city.jpg")
-    : require("../assets/day-city.jpg");
-
   return (
-    <ImageBackground source={cityImage} style={styles.background}>
+    <MenuBackground>
       <View style={styles.dialog}>
         <Text style={styles.title}>
           <Text style={styles.hotter}>Hotter</Text>{" "}
@@ -68,18 +57,11 @@ const MainMenu = () => {
           gradientColors={["#FFD700", "#FFA500", "#FF8C00"]}
         />
       </View>
-    </ImageBackground>
+    </MenuBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
   dialog: {
     alignItems: "center",
     justifyContent: "center",
